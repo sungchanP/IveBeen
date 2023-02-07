@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "467909512360",
+    "project_id": "moolah-12352",
+    "storage_bucket": "moolah-12352.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467909512360:android:7d5e015a39af2237efc69d",
+        "android_client_info": {
+          "package_name": "com.example.dollar_bill"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "467909512360-d96kc7ac5quap6i2th4en8gl8nssjlqt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFW4Qhm4XtbbufW0ak3JQ48_w5SD9c75o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "467909512360-d96kc7ac5quap6i2th4en8gl8nssjlqt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
