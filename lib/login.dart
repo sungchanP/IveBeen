@@ -1,8 +1,25 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
+import 'signup.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   const Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose(){
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,44 +31,98 @@ class Login extends StatelessWidget {
             children: [
               Container(
                 //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-                margin: EdgeInsets.only(top: 60),
+                margin: EdgeInsets.only(top: 130),
                 child: Text(
                   "Moolah",
-                  style: TextStyle(fontSize: 45),
+                  style: TextStyle(fontSize: 50),
                   ),
               ),
               Container(
                 //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-                margin: EdgeInsets.only(top: 80),
+                margin: EdgeInsets.only(top: 120),
                 child: Column(
                   children: [
                     Container(
                       //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-                      margin: EdgeInsets.only(left: 70, right: 70),
+                      margin: EdgeInsets.only(left: 60, right: 60),
                       child: TextField(
+                        controller: _emailController,
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20)
+                          ),
                           labelText: "Email",
-                        //  hintText: 'Email',
                         ),
                       ),
                     ),
                     SizedBox(height: 10),
                     Container(
                       //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-                      margin: EdgeInsets.only(left: 70, right: 70),
+                      margin: EdgeInsets.only(left: 60, right: 60),
                       child: TextField(
+                        controller: _passwordController,
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20)
+                          ),
                           labelText: 'Password',
                         ),
                       ),
-                    ),
+                    ), 
+                    SizedBox(height: 40,),
                     InkWell(
                       child: Container(
-                        alignment: Alignment.topRight,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            style: BorderStyle.solid,
+                            //color: Colors.green,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(20),
+                          ),
+                          //color: Colors.green,
+                        ),
+                        padding: EdgeInsets.fromLTRB(110, 8, 110, 8),
+                        child: Text(
+                          "Log in",
+                          style: TextStyle(fontSize: 20,)// color: Colors.white),
+                          ),
+                      ),
+                      onTap: (){
+                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
+                        signIn();
+                        },
+                    ),
+                    SizedBox(height: 120,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          child: Text(
+                            'New User? ',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ),
+                        InkWell(
+                          child: Container(
+                            //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
+                            child: Text(
+                              'Sign Up',
+                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          onTap: (){
+                            // create new acc
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUp()));
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20,),
+                    InkWell(
+                      child: Container(
+                        //alignment: Alignment.topRight,
                         //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-                        margin: EdgeInsets.only(top: 10,left: 245, right: 70),
+                        //margin: EdgeInsets.only(top: 10,),//left: 245, right: 65),
                         child: Text(
                           'Forgot Password',
                           style: TextStyle(fontSize: 12),
@@ -61,40 +132,6 @@ class Login extends StatelessWidget {
                         //functions for finding password
                       },
                     ),
-                    InkWell(
-                      child: Container(
-                        //height: 50,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            style: BorderStyle.solid,
-                            color: Colors.green,
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(20),
-                          ),
-                          color: Colors.green,
-                        ),
-                        margin: EdgeInsets.only(top: 40),
-                        padding: EdgeInsets.fromLTRB(70, 8, 70, 8),
-                        //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-                        child: Text(
-                          "Log in",
-                          style: TextStyle(fontSize: 20, color: Colors.white),
-                          ),
-                      ),
-                      onTap: (){
-                         Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
-                      },
-                    ),
-                    SizedBox(height: 100,),
-                    InkWell(
-                      child: Container(
-                        //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-                        child: Text(
-                          'Create new account',
-                          style: TextStyle(fontSize: 12),
-                        )
-                      ),
-                    )
                   ]
                 ),
               ),
@@ -103,5 +140,21 @@ class Login extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future signIn() async {
+    try{
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(), 
+        password: _passwordController.text.trim()
+      );
+    } on FirebaseAuthException catch (e){
+      if(e.code == 'invalid-email'){
+        print('Invalid email address format');
+      }
+      if(e.code == 'user-not-found'){
+        print('No user account found. Sign up for new account');
+      }
+    }
   }
 }
