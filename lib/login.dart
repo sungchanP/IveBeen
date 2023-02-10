@@ -1,7 +1,9 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
 import 'signup.dart';
+import 'authHelper.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -11,6 +13,10 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+  bool _pwvisible = false;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -51,7 +57,7 @@ class _LoginState extends State<Login> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20)
                           ),
-                          labelText: "Email",
+                          hintText: "Email",
                         ),
                       ),
                     ),
@@ -61,11 +67,21 @@ class _LoginState extends State<Login> {
                       margin: EdgeInsets.only(left: 60, right: 60),
                       child: TextField(
                         controller: _passwordController,
+                        obscureText: !_pwvisible,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20)
                           ),
-                          labelText: 'Password',
+                          hintText: 'Password',
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _pwvisible? Icons.visibility : Icons.visibility_off
+                            ),
+                            onPressed: () => setState(() {
+                              _pwvisible = !_pwvisible;
+                              }
+                            ),
+                          )
                         ),
                       ),
                     ), 
@@ -89,7 +105,10 @@ class _LoginState extends State<Login> {
                       ),
                       onTap: (){
                         //Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
-                        signIn();
+                        AuthHelper().signIn(
+                          email: _emailController.text, password: _passwordController.text
+                          );
+                        //signIn();
                         },
                     ),
                     SizedBox(height: 120,),
@@ -142,19 +161,21 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Future signIn() async {
-    try{
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(), 
-        password: _passwordController.text.trim()
-      );
-    } on FirebaseAuthException catch (e){
-      if(e.code == 'invalid-email'){
-        print('Invalid email address format');
-      }
-      if(e.code == 'user-not-found'){
-        print('No user account found. Sign up for new account');
-      }
-    }
-  }
+  // Future signIn() async {
+  //   try{
+  //     await _auth.signInWithEmailAndPassword(
+  //       email: _emailController.text.trim(), 
+  //       password: _passwordController.text.trim()
+  //     );
+  //   } on FirebaseAuthException catch (e){
+  //     if(e.code == 'invalid-email'){
+  //       print('Invalid email address format');
+  //     }
+  //     if(e.code == 'user-not-found'){
+  //       //Navigator.push(context, MaterialPageRoute(builder: (context)=> const ShakeError()))
+  //     }
+  //   }
+  // }
+
+
 }
