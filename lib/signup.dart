@@ -1,3 +1,5 @@
+//import 'package:dollar_bill/emailVer.dart';
+import 'package:dollar_bill/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -12,9 +14,10 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
 
-  bool _pwMatch = false;
   bool _pwOneVisible = false;
   bool _pwTwoVisible = false;
+  bool _loading = false;
+
   final _emailController = TextEditingController();
   final _pwController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -42,6 +45,9 @@ class _SignUpState extends State<SignUp> {
                   validator: (value) {
                     if (value == null || value.isEmpty){
                       return "Enter email";
+                    }
+                    else if (!(value.contains("@"))){
+                      return "Invalid email";
                     }
                     return null;
                   },
@@ -71,6 +77,9 @@ class _SignUpState extends State<SignUp> {
                   validator: (value) {
                     if (value == null || value.isEmpty){
                       return "Enter password";
+                    }
+                    else if(value.length < 6) {
+                      return "Password must be at least 6 characters";
                     }
                     return null;
                   },
@@ -108,7 +117,7 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               SizedBox(height: 40,),
-              InkWell(
+              _loading? CircularProgressIndicator() : InkWell(
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border.all(
@@ -125,32 +134,30 @@ class _SignUpState extends State<SignUp> {
                     style: TextStyle(fontSize: 20,)// color: Colors.white),
                     ),
                 ),
-                onTap: (){
+                onTap: () async{
                   if(_formKey.currentState!.validate()){
-                    AuthHelper().signUp(
+                    setState(() {
+                      _loading = true;
+                    });
+                    await AuthHelper().signUp(
                       email: _emailController.text, password: _pwController.text
+                      ).then((value) {
+                        if (value == null){
+                          Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+                          // Navigator.push(context, PageRouteBuilder(
+                          // pageBuilder: (context, animation1, animation2) => Login(),
+                          // transitionDuration: Duration.zero,
+                          // reverseTransitionDuration: Duration.zero,));
+                        }
+                      }
                     );
+                    setState(() {
+                      _loading = false;
+                    });
                   }
                 },
               ),
               SizedBox(height: 30,),
-              // InkWell(
-              //   child: Container(
-              //     padding: EdgeInsets.fromLTRB(15,5,15,5),
-              //     decoration: BoxDecoration(
-              //       border: Border.all(
-              //         style: BorderStyle.solid,
-              //       ),
-              //       borderRadius: BorderRadius.circular(20),
-              //     ),
-              //     child: Text(
-              //       "Go back",
-              //     ),
-              //   ),
-              //   onTap: (){
-              //     Navigator.pop(context);
-              //   },
-              // ),
               Container(
                 padding: EdgeInsets.only(right: 250),
                 //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),

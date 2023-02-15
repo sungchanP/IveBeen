@@ -1,3 +1,4 @@
+import 'package:dollar_bill/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: MainPage(),
+      initialRoute: '/',
+      routes: {
+        '/login':(context) => Login(),
+        '/home':(context) => Home(),
+        '/signup':(context) => SignUp(),
+
+      },
+      // onGenerateRoute: (settings) {
+      //   if(settings.name == '/signup'){
+      //     return PageRouteBuilder(pageBuilder: (context, animation1, animation2) => MyApp(),
+      //     transitionDuration: Duration.zero,
+      //     reverseTransitionDuration: Duration.zero,
+      //     );
+      //   }
+      // },
     );
   }
 }

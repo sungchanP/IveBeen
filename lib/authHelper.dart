@@ -11,6 +11,7 @@ class AuthHelper {
         email: email,
         password: password,
       );
+      return null;
     } on FirebaseAuthException catch (e) {
       return e.message;
     }
@@ -21,7 +22,8 @@ class AuthHelper {
     try {
       await _auth.signInWithEmailAndPassword(
         email: email, password: password
-      );
+        );
+        return null;
     } on FirebaseAuthException catch (e) {
       return e.message;
     }
