@@ -24,14 +24,6 @@ class MyApp extends StatelessWidget {
         '/signup':(context) => SignUp(),
 
       },
-      // onGenerateRoute: (settings) {
-      //   if(settings.name == '/signup'){
-      //     return PageRouteBuilder(pageBuilder: (context, animation1, animation2) => MyApp(),
-      //     transitionDuration: Duration.zero,
-      //     reverseTransitionDuration: Duration.zero,
-      //     );
-      //   }
-      // },
     );
   }
 }

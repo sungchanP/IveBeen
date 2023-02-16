@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'collection.dart';
-import 'others.dart';
+import 'account.dart';
 
 
 class Home extends StatefulWidget {
@@ -16,7 +16,7 @@ class _HomeState extends State<Home> {
   static const List<Widget> _widgetOptions=[
     Bills(),
     Collection(),
-    Others(),
+    Account(),
   ];
 
   void ontapItem(int index){
@@ -42,9 +42,9 @@ class _HomeState extends State<Home> {
             label: 'Collection',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.remove_red_eye_outlined),
-            activeIcon: Icon(Icons.remove_red_eye),
-            label: 'Others',
+            icon: Icon(Icons.account_circle_outlined),
+            activeIcon: Icon(Icons.account_circle),
+            label: 'Account',
           ),
         ],
         currentIndex: _selectedIndex,

@@ -127,10 +127,7 @@ class _LoginState extends State<Login> {
                             await AuthHelper().signIn(
                               email: _emailController.text, password: _passwordController.text
                             ).then((value) {
-                              if(value == null){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
-                              }
-                              else{
+                              if(value != null){
                                 final snackbar = SnackBar(content: const Text("user not found"),);
                                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
                               }

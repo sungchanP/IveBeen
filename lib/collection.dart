@@ -32,26 +32,25 @@ class _CollectionState extends State<Collection> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: InkWell(
-          child: Container(
-            child: Text("${user?.email}, Log out"),
-          ),
-          onTap: (){
-            Future signOut() async {
-              await _auth.signOut().then((value) => 
-              Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false)
-                // Navigator.push(context, PageRouteBuilder(
-                // pageBuilder: (context, animation1, animation2) => Login(),
-                // transitionDuration: Duration.zero,
-                // reverseTransitionDuration: Duration.zero,))
-            );
-              print('signout');
-            }
-            signOut();
-            //FirebaseAuth.instance.signOut();//.then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>Login())));
-          },
+        // child: InkWell(
+        //   child: Container(
+        //     child: Text("${user?.email}, Log out"),
+        //   ),
+        //   onTap: () async{
+        //     // Future signOut() async {
+        //     //   await _auth.signOut();//.then((value) => 
+        //     //   //Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false)
+        //     //     // Navigator.push(context, PageRouteBuilder(
+        //     //     // pageBuilder: (context, animation1, animation2) => Login(),
+        //     //     // transitionDuration: Duration.zero,
+        //     //     // reverseTransitionDuration: Duration.zero,))
+        //     // //);
+        //     //   print('signout');
+        //     // }
+        //     await AuthHelper().signOut();
+        //     //FirebaseAuth.instance.signOut();//.then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>Login())));
+        //   },
         ),
-      ),
-    );
+      );
   }
 }
