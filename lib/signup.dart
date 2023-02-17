@@ -143,7 +143,8 @@ class _SignUpState extends State<SignUp> {
                       email: _emailController.text, password: _pwController.text
                       ).then((value) {
                         if (value == null){
-                          Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+                          AuthHelper().signOut();
+                          Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                           // Navigator.push(context, PageRouteBuilder(
                           // pageBuilder: (context, animation1, animation2) => Login(),
                           // transitionDuration: Duration.zero,

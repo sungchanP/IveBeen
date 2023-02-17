@@ -188,21 +188,4 @@ class _LoginState extends State<Login> {
       ),
     );
   }
-
-  // Future signIn() async {
-  //   try{
-  //     await _auth.signInWithEmailAndPassword(
-  //       email: _emailController.text, 
-  //       password: _passwordController.text
-  //     ).then((value) {
-  //       //_userFound = true;
-  //       Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
-  //     });
-  //   } on FirebaseAuthException catch (e){
-  //     _userFound = false;
-  //     print("User not found");
-  //     // final snackbar = SnackBar(content: const Text("user not found"),);
-  //     // ScaffoldMessenger.of(context).showSnackBar(snackbar);
-  //   }
-  // }
 }
