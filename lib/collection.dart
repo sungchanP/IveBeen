@@ -38,12 +38,12 @@ class _CollectionState extends State<Collection> {
                  setState(() {
                    countryCode = value;
                  });
-                 print("yoyoyoyo$countryCode");
-                DbHelper().getBillsCollection(countryCode);
+                print("yoyoyoyo $countryCode");
+                DbHelper().isBillCollected(countryCode).then((value) => 
+                  value? print("already collected $countryCode bill") : DbHelper().addBillToDB(countryCode)
+                  );
               });
-  }),
-            //Text(placemark.toString()),
-            
+            }),
           ],
         )
         ),

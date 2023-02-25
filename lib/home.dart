@@ -1,7 +1,9 @@
+import 'package:dollar_bill/getCountryCodeHelper.dart';
 import 'package:flutter/material.dart';
 import 'collection.dart';
 import 'account.dart';
 import 'bills.dart';
+import 'dbHelper.dart';
 
 
 class Home extends StatefulWidget {
@@ -14,12 +16,26 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
+  String _countryCode = '';
 
   static const List<Widget> _widgetOptions=[
     Bills(),
     Collection(),
     Account(),
   ];
+
+  @override
+  // void initState() async{
+  //   // TODO: implement initState
+  //   await GetCountryCodeHelper().getCountry().then((value) {
+  //     setState(() {
+  //       _countryCode = value;
+  //     });
+  //     print(_countryCode);
+  //     DbHelper().getBillsCollection(_countryCode);
+  //   });
+  //   super.initState();
+  // }
 
   void ontapItem(int index){
     setState(() {
