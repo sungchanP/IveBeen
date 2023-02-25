@@ -25,7 +25,7 @@ class DbHelper{
       Map<dynamic, dynamic> countryCodeColleted = snapshot.value as Map<dynamic, dynamic>; // maps all key value to map from Datasnapshot
       for (var value in countryCodeColleted.values){
         if(value == countryCode){                       // currently located country bill is in bill db = already collected 
-          print("this bill is already collected for this user");
+          print("$countryCode bill is already collected for this user");
           isCollected = true;
           break;                                        // no need for further check 
         }

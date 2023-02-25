@@ -18,6 +18,8 @@ class _HomeState extends State<Home> {
   int _selectedIndex = 0;
   String _countryCode = '';
 
+  //bool isFirst = true;
+
   static const List<Widget> _widgetOptions=[
     Bills(),
     Collection(),
@@ -25,17 +27,42 @@ class _HomeState extends State<Home> {
   ];
 
   @override
-  // void initState() async{
-  //   // TODO: implement initState
-  //   await GetCountryCodeHelper().getCountry().then((value) {
-  //     setState(() {
-  //       _countryCode = value;
-  //     });
-  //     print(_countryCode);
-  //     DbHelper().getBillsCollection(_countryCode);
-  //   });
-  //   super.initState();
-  // }
+  void initState() {
+    // TODO: implement initState
+    showMsg();
+    super.initState();
+  }
+
+  void showMsg() async{
+    await GetCountryCodeHelper().getCountry().then((value) {
+    setState(() {
+      _countryCode = value;
+    });
+    DbHelper().isBillCollected(_countryCode).then((value) {
+      if(!value) {
+        showDialog(
+          context: context, 
+          builder: (BuildContext context){
+            return AlertDialog(
+              title: const Text("New Bill/Flag is ready to be collected"),
+              content: Text("You can collect $_countryCode bill/flag"),
+              actions: <Widget>[
+                InkWell(
+                  child: Container(
+                    child: Text("Collect"),
+                  ),
+                  onTap: () {
+                    DbHelper().addBillToDB(_countryCode);
+                    Navigator.pop(context);
+                  }
+                )
+              ],
+            );
+          });
+        }
+      });
+    });
+  }
 
   void ontapItem(int index){
     setState(() {
