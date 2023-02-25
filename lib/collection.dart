@@ -4,6 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
+import 'dbHelper.dart';
+import 'getCountryCodeHelper.dart';
+
 class Collection extends StatefulWidget {
   const Collection({super.key});
 
@@ -14,42 +19,33 @@ class Collection extends StatefulWidget {
 
 class _CollectionState extends State<Collection> {
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  User? user;
+  String countryCode = '';
 
-  void initState(){
-    super.initState();
-    initUser();
-  }
+  // void extractCountryCode() async{
+  //   await GetCountryCodeHelper().getCountry().then((value) => countryCode = GetCountryCodeHelper().getCountryCode());
+  // }
 
-  initUser() {
-    user =  _auth.currentUser!;
-    setState(() {
-    });
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        // child: InkWell(
-        //   child: Container(
-        //     child: Text("${user?.email}, Log out"),
-        //   ),
-        //   onTap: () async{
-        //     // Future signOut() async {
-        //     //   await _auth.signOut();//.then((value) => 
-        //     //   //Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false)
-        //     //     // Navigator.push(context, PageRouteBuilder(
-        //     //     // pageBuilder: (context, animation1, animation2) => Login(),
-        //     //     // transitionDuration: Duration.zero,
-        //     //     // reverseTransitionDuration: Duration.zero,))
-        //     // //);
-        //     //   print('signout');
-        //     // }
-        //     await AuthHelper().signOut();
-        //     //FirebaseAuth.instance.signOut();//.then((value) => Navigator.push(context, MaterialPageRoute(builder: (context)=>Login())));
-        //   },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FloatingActionButton(onPressed: () async{
+              await GetCountryCodeHelper().getCountry().then((value){
+                 setState(() {
+                   countryCode = value;
+                 });
+                 print("yoyoyoyo$countryCode");
+                DbHelper().getBillsCollection(countryCode);
+              });
+  }),
+            //Text(placemark.toString()),
+            
+          ],
+        )
         ),
       );
   }

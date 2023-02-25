@@ -33,155 +33,161 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Form(
-          key: _loginFormKey,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-                  margin: EdgeInsets.only(top: 130),
-                  child: Text(
-                    "Moolah",
-                    style: TextStyle(fontSize: 50),
+        resizeToAvoidBottomInset : false,
+        body: SafeArea(
+          bottom: false,
+          child: SingleChildScrollView(
+            child: Form(
+              key: _loginFormKey,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
+                      margin: EdgeInsets.only(top: 140),
+                      child: Text(
+                        "Moolah",
+                        style: TextStyle(fontSize: 50),
+                        ),
                     ),
-                ),
-                Container(
-                  //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-                  margin: EdgeInsets.only(top: 120),
-                  child: Column(
-                    children: [
-                      Container(
-                        //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-                        margin: EdgeInsets.only(left: 60, right: 60),
-                        child: TextFormField(
-                          controller: _emailController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20)
-                            ),
-                            hintText: "Email",
-                          ),
-                          validator: (value) {
-                            if(value == null || value.isEmpty){
-                              return "Enter email";
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Container(
-                        //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-                        margin: EdgeInsets.only(left: 60, right: 60),
-                        child: TextFormField(
-                          controller: _passwordController,
-                          obscureText: !_pwvisible,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20)
-                            ),
-                            hintText: 'Password',
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                _pwvisible? Icons.visibility : Icons.visibility_off
-                              ),
-                              onPressed: () => setState(() {
-                                _pwvisible = !_pwvisible;
-                                }
-                              ),
-                            )
-                          ),
-                          validator: (value) {
-                            if(value == null || value.isEmpty){
-                              return "Enter password";
-                            }
-                            return null;
-                          },
-                        ),
-                      ), 
-                      SizedBox(height: 40,),
-                      _loading? CircularProgressIndicator() : InkWell(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              style: BorderStyle.solid,
-                              //color: Colors.green,
-                            ),
-                            borderRadius: BorderRadius.all(Radius.circular(20),
-                            ),
-                            //color: Colors.green,
-                          ),
-                          padding: EdgeInsets.fromLTRB(110, 8, 110, 8),
-                          child: Text(
-                            "Log in",
-                            style: TextStyle(fontSize: 20,)// color: Colors.white),
-                            ),
-                        ),
-                        onTap: () async{
-                          if (_loginFormKey.currentState!.validate()){
-                            setState(() {
-                              _loading = true;
-                            });
-                            await AuthHelper().signIn(
-                              email: _emailController.text, password: _passwordController.text
-                            ).then((value) {
-                              if(value != null){
-                                final snackbar = SnackBar(content: const Text("user not found"),);
-                                ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                              }
-                            });
-                            setState(() {
-                              _loading = false;
-                            });
-                          }
-                        }
-                      ),
-                      SizedBox(height: 120,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                    Container(
+                      //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
+                      margin: EdgeInsets.only(top: 115),
+                      child: Column(
                         children: [
                           Container(
-                            child: Text(
-                              'New User? ',
-                              style: TextStyle(fontSize: 12),
+                            //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
+                            margin: EdgeInsets.only(left: 60, right: 60),
+                            child: TextFormField(
+                              controller: _emailController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20)
+                                ),
+                                hintText: "Email",
+                              ),
+                              validator: (value) {
+                                if(value == null || value.isEmpty){
+                                  return "Enter email";
+                                }
+                                return null;
+                              },
                             ),
                           ),
+                          SizedBox(height: 10),
+                          Container(
+                            //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
+                            margin: EdgeInsets.only(left: 60, right: 60),
+                            child: TextFormField(
+                              controller: _passwordController,
+                              obscureText: !_pwvisible,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20)
+                                ),
+                                hintText: 'Password',
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _pwvisible? Icons.visibility : Icons.visibility_off
+                                  ),
+                                  onPressed: () => setState(() {
+                                    _pwvisible = !_pwvisible;
+                                    }
+                                  ),
+                                )
+                              ),
+                              validator: (value) {
+                                if(value == null || value.isEmpty){
+                                  return "Enter password";
+                                }
+                                return null;
+                              },
+                            ),
+                          ), 
+                          SizedBox(height: 40,),
+                          _loading? CircularProgressIndicator() : InkWell(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  style: BorderStyle.solid,
+                                  //color: Colors.green,
+                                ),
+                                borderRadius: BorderRadius.all(Radius.circular(20),
+                                ),
+                                //color: Colors.green,
+                              ),
+                              padding: EdgeInsets.fromLTRB(120, 8, 120, 8),
+                              child: Text(
+                                "Log in",
+                                style: TextStyle(fontSize: 20,)// color: Colors.white),
+                                ),
+                            ),
+                            onTap: () async{
+                              if (_loginFormKey.currentState!.validate()){
+                                setState(() {
+                                  _loading = true;
+                                });
+                                await AuthHelper().signIn(
+                                  email: _emailController.text, password: _passwordController.text
+                                ).then((value) {
+                                  if(value != null){
+                                    final snackbar = SnackBar(content: const Text("user not found"),);
+                                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                                  }
+                                });
+                                setState(() {
+                                  _loading = false;
+                                });
+                              }
+                            }
+                          ),
+                          SizedBox(height: 180,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                child: Text(
+                                  'New User? ',
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ),
+                              InkWell(
+                                child: Container(
+                                  //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
+                                  child: Text(
+                                    'Sign Up',
+                                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                onTap: (){
+                                  // create new acc
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUp()));
+                                },
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20,),
                           InkWell(
                             child: Container(
+                              //alignment: Alignment.topRight,
                               //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
+                              //margin: EdgeInsets.only(top: 10,),//left: 245, right: 65),
                               child: Text(
-                                'Sign Up',
-                                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                'Forgot Password',
+                                style: TextStyle(fontSize: 12),
                               ),
                             ),
                             onTap: (){
-                              // create new acc
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUp()));
+                              //functions for finding password
                             },
                           ),
-                        ],
+                        ]
                       ),
-                      SizedBox(height: 20,),
-                      InkWell(
-                        child: Container(
-                          //alignment: Alignment.topRight,
-                          //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-                          //margin: EdgeInsets.only(top: 10,),//left: 245, right: 65),
-                          child: Text(
-                            'Forgot Password',
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                        onTap: (){
-                          //functions for finding password
-                        },
-                      ),
-                    ]
-                  ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

@@ -37,7 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.2.6
   firebase_core: ^2.5.0
-  animated_toggle_switch: ^0.6.1
+  geolocator: ^9.0.2
+  geocoding: ^2.0.5
+  firebase_database: ^10.0.13
 
 dev_dependencies:
   flutter_test:

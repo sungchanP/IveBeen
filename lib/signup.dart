@@ -1,9 +1,11 @@
-//import 'package:dollar_bill/emailVer.dart';
+
 import 'package:dollar_bill/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'authHelper.dart';
+import 'dbHelper.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -21,6 +23,7 @@ class _SignUpState extends State<SignUp> {
   final _emailController = TextEditingController();
   final _pwController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -143,6 +146,7 @@ class _SignUpState extends State<SignUp> {
                       email: _emailController.text, password: _pwController.text
                       ).then((value) {
                         if (value == null){
+                          DbHelper().addUserToDB();
                           AuthHelper().signOut();
                           Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                           // Navigator.push(context, PageRouteBuilder(
@@ -176,5 +180,4 @@ class _SignUpState extends State<SignUp> {
       )
     );
   }
-
 }
