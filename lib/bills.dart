@@ -85,24 +85,27 @@ class _BillsState extends State<Bills> {
         childAspectRatio: 2/3,
         padding: EdgeInsets.only(left: 5.0, right: 5.0),
         children: [
-          Image.asset('flags/South Korea.png', fit: BoxFit.cover,),
-          Image.asset('flags/Afghanistan.jpeg', fit: BoxFit.cover,),
-          Image.asset('flags/Albania.png', fit: BoxFit.cover,),
-          Image.asset('flags/Algeria.jpeg', fit: BoxFit.cover,),
-          Image.asset('flags/Andorra.jpeg', fit: BoxFit.cover,),
-          Image.asset('flags/Angola.jpeg', fit: BoxFit.cover,),
-          Image.asset('flags/Antigua and Barbuda.jpeg', fit: BoxFit.cover,),
-          Image.asset('flags/Argentina.jpeg', fit: BoxFit.cover,),
-          Image.asset('flags/Armenia.jpeg', fit: BoxFit.cover,),
-          Image.asset('flags/Aruba.jpeg', fit: BoxFit.cover,),
-          Image.asset('flags/Australia.jpeg', fit: BoxFit.cover,),
-          Image.asset('flags/Austria.jpeg', fit: BoxFit.cover,),
-          Image.asset('flags/Azerbaijan.jpeg', fit: BoxFit.cover,),
-          Image.asset('flags/Bahamas.jpeg', fit: BoxFit.cover,),
-          Image.asset('flags/Bahrain.jpeg', fit: BoxFit.cover,),
-          Image.asset('flags/Bangladesh.jpeg', fit: BoxFit.cover,),
-          Image.asset('flags/Barbados.jpeg', fit: BoxFit.cover,),
-          Image.asset('flags/Belarus.jpeg', fit: BoxFit.fill,),
+          // Image.asset('flags/South Korea.png', fit: BoxFit.cover,),
+          // Image.asset('flags/Afghanistan.jpeg', fit: BoxFit.cover,),
+          // Image.asset('flags/Albania.png', fit: BoxFit.cover,),
+          // Image.asset('flags/Algeria.jpeg', fit: BoxFit.cover,),
+          // Image.asset('flags/Andorra.jpeg', fit: BoxFit.cover,),
+          // Image.asset('flags/Angola.jpeg', fit: BoxFit.cover,),
+          // Image.asset('flags/Antigua and Barbuda.jpeg', fit: BoxFit.cover,),
+          // Image.asset('flags/Argentina.jpeg', fit: BoxFit.cover,),
+          // Image.asset('flags/Armenia.jpeg', fit: BoxFit.cover,),
+          // Image.asset('flags/Aruba.jpeg', fit: BoxFit.cover,),
+          // Image.asset('flags/Australia.jpeg', fit: BoxFit.cover,),
+          // Image.asset('flags/Austria.jpeg', fit: BoxFit.cover,),
+          // Image.asset('flags/Azerbaijan.jpeg', fit: BoxFit.cover,),
+          // Image.asset('flags/Bahamas.jpeg', fit: BoxFit.cover,),
+          // Image.asset('flags/Bahrain.jpeg', fit: BoxFit.cover,),
+          // Image.asset('flags/Bangladesh.jpeg', fit: BoxFit.cover,),
+          // Image.asset('flags/Barbados.jpeg', fit: BoxFit.cover,),
+          // Image.asset('flags/Belarus.jpeg', fit: BoxFit.fill,),
+          Image.asset('flags_uncollected/AF.jpg', fit: BoxFit.cover,),
+          Image.asset('flags_uncollected/AL.jpg', fit: BoxFit.cover,),
+          Image.asset('flags_uncollected/DZ.jpg', fit: BoxFit.cover,),
         ],
       ),
     );
@@ -111,106 +114,104 @@ class _BillsState extends State<Bills> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: SafeArea(
-          bottom: false,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: width,
-                    height: height,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(50.0),
-                      ),
-                      //border: Border.all(style: BorderStyle.solid),
-                      boxShadow: [BoxShadow(
-                        color: Color.fromARGB(248, 33, 150, 33),
-                        spreadRadius: 1,
-                        blurRadius: 0,
-                        offset: Offset(0, 1.5),
-                      ),
-                      ]
+    return Scaffold(
+      body: SafeArea(
+        bottom: false,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: width,
+                  height: height,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(50.0),
                     ),
-                    child: Stack(
-                      children: <Widget>[
-                        AnimatedAlign(
-                          alignment: Alignment(xAlign!, 0),
-                          duration: Duration(milliseconds: 150),
+                    //border: Border.all(style: BorderStyle.solid),
+                    boxShadow: [BoxShadow(
+                      color: Color.fromARGB(248, 33, 150, 33),
+                      spreadRadius: 1,
+                      blurRadius: 0,
+                      offset: Offset(0, 1.5),
+                    ),
+                    ]
+                  ),
+                  child: Stack(
+                    children: <Widget>[
+                      AnimatedAlign(
+                        alignment: Alignment(xAlign!, 0),
+                        duration: Duration(milliseconds: 150),
+                        child: Container(
+                          width: width * 0.5,
+                          height: height,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 9, 158, 19),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50.0),
+                            ),
+                            //border: Border.all(style: BorderStyle.solid)
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            xAlign = loginAlign;
+                            moneyColor = selectedColor;
+                            flagColor = normalColor;
+
+                            selectedWidgetMaker = WidgetMaker.bills;
+                          });
+                        },
+                        child: Align(
+                          alignment: Alignment(-1, 0),
                           child: Container(
                             width: width * 0.5,
-                            height: height,
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 9, 158, 19),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(50.0),
-                              ),
-                              //border: Border.all(style: BorderStyle.solid)
-                            ),
+                            color: Colors.transparent,
+                            alignment: Alignment.center,
+                            child: Icon(Icons.money_outlined, color: moneyColor),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              xAlign = loginAlign;
-                              moneyColor = selectedColor;
-                              flagColor = normalColor;
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            xAlign = signInAlign;
+                            moneyColor = normalColor;
+                            flagColor = selectedColor;
 
-                              selectedWidgetMaker = WidgetMaker.bills;
-                            });
-                          },
-                          child: Align(
-                            alignment: Alignment(-1, 0),
-                            child: Container(
-                              width: width * 0.5,
-                              color: Colors.transparent,
-                              alignment: Alignment.center,
-                              child: Icon(Icons.money_outlined, color: moneyColor),
-                            ),
+                            selectedWidgetMaker = WidgetMaker.flags;
+                          });
+                        },
+                        child: Align(
+                          alignment: Alignment(1, 0),
+                          child: Container(
+                            width: width * 0.5,
+                            color: Colors.transparent,
+                            alignment: Alignment.center,
+                            child: Icon(Icons.flag_outlined, color: flagColor),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              xAlign = signInAlign;
-                              moneyColor = normalColor;
-                              flagColor = selectedColor;
-
-                              selectedWidgetMaker = WidgetMaker.flags;
-                            });
-                          },
-                          child: Align(
-                            alignment: Alignment(1, 0),
-                            child: Container(
-                              width: width * 0.5,
-                              color: Colors.transparent,
-                              alignment: Alignment.center,
-                              child: Icon(Icons.flag_outlined, color: flagColor),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  // SizedBox(
-                  //   width: 30,
-                  //   height: 30,
-                  //   child: MyBlinkingButton()
-                  // )
-                ],
-              ),
-              SizedBox(height: 15,),
-              Container(
-                child: getWidget(),
-              ),
-            ],
-          ),
+                ),
+                // SizedBox(
+                //   width: 30,
+                //   height: 30,
+                //   child: MyBlinkingButton()
+                // )
+              ],
+            ),
+            SizedBox(height: 15,),
+            Container(
+              child: getWidget(),
+            ),
+          ],
         ),
       ),
     );

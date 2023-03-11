@@ -1,24 +1,35 @@
 import 'package:dollar_bill/getCountryCodeHelper.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'collection.dart';
 import 'account.dart';
 import 'bills.dart';
 import 'dbHelper.dart';
+import 'flagUrlList.dart' as global;
 
 
 class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Home> createState() => HomeState();
 }
 
 
-class _HomeState extends State<Home> {
+class HomeState extends State<Home> {
   int _selectedIndex = 0;
   String _countryCode = '';
 
-  //bool isFirst = true;
+  final _dbRef = FirebaseDatabase.instance.ref('users');
+  User? user = FirebaseAuth.instance.currentUser;
+
+  final _storageRef = FirebaseStorage.instance.ref();
+
+
+  String? flagUrl;
+  String? billUrl;
 
   static const List<Widget> _widgetOptions=[
     Bills(),
@@ -28,10 +39,37 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    // TODO: implement initState
     showMsg();
+    addFlagUrl();
     super.initState();
   }
+
+
+
+  Future<String> getFlagUrl(String countryCode) async{
+    final imageRef = _storageRef.child("flags_collected/$countryCode.png");
+    return await imageRef.getDownloadURL();
+  }
+
+  addFlagUrl() async{
+    final flagDbRef = _dbRef.child('${user!.uid}/flags');
+    final snapshot = await flagDbRef.get();
+    Map<dynamic, dynamic> map = snapshot.value as Map<dynamic, dynamic>;
+    List<dynamic> list = map.values.toList();
+
+    for(var flag in list){
+      String url = await getFlagUrl(flag);
+      global.flagurlList.add(Image.network(url, fit: BoxFit.cover,));
+      // getFlagUrl(flag).then((value) {
+      //   print(flag);
+      //   setState(() {
+      //     flagUrl = value;
+      //   });
+      //   global.flagurlList.add(Image.network(flagUrl!, fit: BoxFit.cover,));
+      // });
+    }
+  }
+
 
   void showMsg() async{
     await GetCountryCodeHelper().getCountry().then((value) {
@@ -41,7 +79,7 @@ class _HomeState extends State<Home> {
     DbHelper().isBillCollected(_countryCode).then((value) {
       if(!value) {
         showDialog(
-          context: context, 
+          context: context,
           builder: (BuildContext context){
             return AlertDialog(
               title: const Text("New Bill/Flag is ready to be collected"),
@@ -53,6 +91,7 @@ class _HomeState extends State<Home> {
                   ),
                   onTap: () {
                     DbHelper().addBillToDB(_countryCode);
+                    DbHelper().addFlagToDB(_countryCode);
                     Navigator.pop(context);
                   }
                 )
