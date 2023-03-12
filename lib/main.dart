@@ -14,9 +14,10 @@ void main() async{
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MainPage(),
+      home: const MainPage(),
       initialRoute: '/',
       routes: {
         '/login':(context) => Login(),

@@ -9,107 +9,25 @@ class Bills extends StatefulWidget {
   State<Bills> createState() => _BillsState();
 }
 
-
-const double width = 200.0;
-const double height = 35.0;
-const double loginAlign = -1;
-const double signInAlign = 1;
-const Color selectedColor = Colors.white;
-const Color normalColor = Color.fromARGB(255, 9, 158, 19);
-
 class _BillsState extends State<Bills> {
 
-  double? xAlign;
-  Color? moneyColor;
-  Color? flagColor;
 
-  WidgetMaker selectedWidgetMaker = WidgetMaker.bills;
-
-  @override
-  void initState() {
-    super.initState();
-    xAlign = loginAlign;
-    moneyColor = selectedColor;
-    flagColor = normalColor;
-  }
-
-  Widget getWidget() {
-    switch(selectedWidgetMaker){
-      case WidgetMaker.bills:
-      return getBillsWidget();
-      case WidgetMaker.flags:
-      return getFlagsWidget();
-    }
-  }
-
-  Widget getBillsWidget() {
-    return Expanded(
-      child: GridView.count(
-        crossAxisCount: 4,
-        mainAxisSpacing: 10.0,
-        crossAxisSpacing: 10.0,
-        childAspectRatio: 1/2,
-        padding: EdgeInsets.only(left: 5.0, right: 5.0),
-        children: [
-          Image.asset('banknotes/afghan.jpeg',fit: BoxFit.fill,),
-          Image.asset('banknotes/albania.jpeg',fit: BoxFit.fill,),
-          Image.asset('banknotes/algeria.jpeg',fit: BoxFit.fill),
-          Image.asset('banknotes/angola.jpeg',fit: BoxFit.fill),
-          Image.asset('banknotes/argentina.jpeg',fit: BoxFit.fill),
-          Image.asset('banknotes/armenia.jpeg',fit: BoxFit.fill),
-          Image.asset('banknotes/Aruba.jpeg',fit: BoxFit.fill),
-          Image.asset('banknotes/australia.jpeg',fit: BoxFit.fill),
-          Image.asset('banknotes/Azerbaijan.jpeg',fit: BoxFit.fill),
-          Image.asset('banknotes/Bahamas.jpeg',fit: BoxFit.fill),
-          Image.asset('banknotes/Bahraini.jpeg',fit: BoxFit.fill),
-          Image.asset('banknotes/Bangladeshi.jpeg',fit: BoxFit.fill),
-          Image.asset('banknotes/Barbados.jpeg',fit: BoxFit.fill),
-          Image.asset('banknotes/Belarusian.jpeg',fit: BoxFit.fill),
-          Image.asset('banknotes/Belize.jpeg',fit: BoxFit.fill),
-          Image.asset('banknotes/Bermudian.jpeg',fit: BoxFit.fill),
-          Image.asset('banknotes/Bhutanese.jpeg',fit: BoxFit.fill),
-          Image.asset('banknotes/Bolivia.jpeg',fit: BoxFit.fill),
-          Image.asset('banknotes/Bosnia and Herzegovina.jpeg',fit: BoxFit.fill),
-          Image.asset('banknotes/Botswana.jpeg',fit: BoxFit.fill),
-        ],
-      ),
-    );
-  }
-
-  Widget getFlagsWidget() {
-    return Expanded(
-      child: GridView.count(
-        crossAxisCount: 4,
-        mainAxisSpacing: 10.0,
-        crossAxisSpacing: 10.0,
-        childAspectRatio: 2/3,
-        padding: EdgeInsets.only(left: 5.0, right: 5.0),
-        children: [
-          // Image.asset('flags/South Korea.png', fit: BoxFit.cover,),
-          // Image.asset('flags/Afghanistan.jpeg', fit: BoxFit.cover,),
-          // Image.asset('flags/Albania.png', fit: BoxFit.cover,),
-          // Image.asset('flags/Algeria.jpeg', fit: BoxFit.cover,),
-          // Image.asset('flags/Andorra.jpeg', fit: BoxFit.cover,),
-          // Image.asset('flags/Angola.jpeg', fit: BoxFit.cover,),
-          // Image.asset('flags/Antigua and Barbuda.jpeg', fit: BoxFit.cover,),
-          // Image.asset('flags/Argentina.jpeg', fit: BoxFit.cover,),
-          // Image.asset('flags/Armenia.jpeg', fit: BoxFit.cover,),
-          // Image.asset('flags/Aruba.jpeg', fit: BoxFit.cover,),
-          // Image.asset('flags/Australia.jpeg', fit: BoxFit.cover,),
-          // Image.asset('flags/Austria.jpeg', fit: BoxFit.cover,),
-          // Image.asset('flags/Azerbaijan.jpeg', fit: BoxFit.cover,),
-          // Image.asset('flags/Bahamas.jpeg', fit: BoxFit.cover,),
-          // Image.asset('flags/Bahrain.jpeg', fit: BoxFit.cover,),
-          // Image.asset('flags/Bangladesh.jpeg', fit: BoxFit.cover,),
-          // Image.asset('flags/Barbados.jpeg', fit: BoxFit.cover,),
-          // Image.asset('flags/Belarus.jpeg', fit: BoxFit.fill,),
-          Image.asset('flags_uncollected/AF.jpg', fit: BoxFit.cover,),
-          Image.asset('flags_uncollected/AL.jpg', fit: BoxFit.cover,),
-          Image.asset('flags_uncollected/DZ.jpg', fit: BoxFit.cover,),
-        ],
-      ),
-    );
-  }
+  final List<String> _flagFileList = ['AD.jpeg', 'AE.jpeg', 'AF.jpeg', 'AG.jpeg', 'AL.jpeg', 'AM.jpeg', 'AO.jpeg', 'AR.jpeg', 'AT.jpeg', 'AU.jpeg', 'AW.jpeg', 
+  'AZ.jpeg', 'BA.jpeg', 'BB.jpeg', 'BD.jpeg', 'BE.jpeg', 'BF.jpeg', 'BG.jpeg', 'BH.jpeg', 'BI.jpeg', 'BJ.jpeg', 'BN.jpeg', 'BO.jpeg', 'BQ.jpeg', 
+  'BR.jpeg', 'BS.jpeg', 'BT.jpeg', 'BW.jpeg', 'BY.jpeg', 'BZ.jpeg', 'CA.jpeg', 'CD.jpeg', 'CF.jpeg', 'CG.jpeg', 'CH.jpeg', 'CI.jpeg', 'CL.jpeg', 
+  'CM.jpeg', 'CN.jpeg', 'CO.jpeg', 'CR.jpeg', 'CU.jpeg', 'CV.jpeg', 'CW.jpeg', 'CY.jpeg', 'CZ.jpeg', 'DE.jpeg', 'DJ.jpeg', 'DK.jpeg', 'DM.jpeg', 
+  'DO.jpeg', 'DZ.jpeg', 'EC.jpeg', 'EE.jpeg', 'EG.jpeg', 'ER.jpeg', 'ES.jpeg', 'ET.jpeg', 'FI.jpeg', 'FJ.jpeg', 'FM.jpeg', 'FR.jpeg', 'GA.jpeg', 
+  'GB.jpeg', 'GD.jpeg', 'GE.jpeg', 'GH.jpeg', 'GL.jpeg', 'GM.jpeg', 'GN.jpeg', 'GQ.jpeg', 'GR.jpeg', 'GT.jpeg', 'GU.jpeg', 'GW.jpeg', 'GY.jpeg', 
+  'HK.jpeg', 'HN.jpeg', 'HR.jpeg', 'HT.jpeg', 'HU.jpeg', 'ID.jpeg', 'IE.jpeg', 'IL.jpeg', 'IN.jpeg', 'IQ.jpeg', 'IR.jpeg', 'IS.jpeg', 'IT.jpeg', 
+  'JM.jpeg', 'JO.jpeg', 'JP.jpeg', 'KE.jpeg', 'KG.jpeg', 'KH.jpeg', 'KI.jpeg', 'KM.jpeg', 'KN.jpeg', 'KP.jpeg', 'KR.jpeg', 'KW.jpeg', 'KZ.jpeg', 
+  'LA.jpeg', 'LB.jpeg', 'LC.jpeg', 'LI.jpeg', 'LK.jpeg', 'LR.jpeg', 'LS.jpeg', 'LT.jpeg', 'LU.jpeg', 'LV.jpeg', 'LY.jpeg', 'MA.jpeg', 'MC.jpeg', 
+  'MD.jpeg', 'ME.jpeg', 'MG.jpeg', 'MH.jpeg', 'MK.jpeg', 'ML.jpeg', 'MM.jpeg', 'MN.jpeg', 'MO.jpeg', 'MR.jpeg', 'MT.jpeg', 'MU.jpeg', 'MV.jpeg', 
+  'MW.jpeg', 'MX.jpeg', 'MY.jpeg', 'MZ.jpeg', 'NA.jpeg', 'NC.jpeg', 'NE.jpeg', 'NG.jpeg', 'NI.jpeg', 'NL.jpeg', 'NO.jpeg', 'NP.jpeg', 'NR.jpeg', 
+  'NU.jpeg', 'NZ.jpeg', 'OM.jpeg', 'PA.jpeg', 'PE.jpeg', 'PG.jpeg', 'PH.jpeg', 'PK.jpeg', 'PL.jpeg', 'PR.jpeg', 'PS.jpeg', 'PT.jpeg', 'PW.jpeg', 
+  'PY.jpeg', 'QA.jpeg', 'RO.jpeg', 'RS.jpeg', 'RU.jpeg', 'RW.jpeg', 'SA.jpeg', 'SB.jpeg', 'SC.jpeg', 'SD.jpeg', 'SE.jpeg', 'SG.jpeg', 'SI.jpeg', 
+  'SK.jpeg', 'SL.jpeg', 'SM.jpeg', 'SN.jpeg', 'SO.jpeg', 'SR.jpeg', 'SS.jpeg', 'ST.jpeg', 'SV.jpeg', 'SX.jpeg', 'SY.jpeg', 'SZ.jpeg', 'TD.jpeg', 
+  'TG.jpeg', 'TH.jpeg', 'TJ.jpeg', 'TM.jpeg', 'TN.jpeg', 'TO.jpeg', 'TR.jpeg', 'TT.jpeg', 'TV.jpeg', 'TW.jpeg', 'TZ.jpeg', 'UA.jpeg', 'UG.jpeg', 
+  'US.jpeg', 'UY.jpeg', 'UZ.jpeg', 'VA.jpeg', 'VC.jpeg', 'VE.jpeg', 'VN.jpeg', 'VU.jpeg', 'WS.jpeg', 'YE.jpeg', 'ZA.jpeg', 'ZM.jpeg', 'ZW.jpeg'];
 
 
   @override
@@ -118,142 +36,22 @@ class _BillsState extends State<Bills> {
       body: SafeArea(
         bottom: false,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: width,
-                  height: height,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(50.0),
-                    ),
-                    //border: Border.all(style: BorderStyle.solid),
-                    boxShadow: [BoxShadow(
-                      color: Color.fromARGB(248, 33, 150, 33),
-                      spreadRadius: 1,
-                      blurRadius: 0,
-                      offset: Offset(0, 1.5),
-                    ),
-                    ]
-                  ),
-                  child: Stack(
-                    children: <Widget>[
-                      AnimatedAlign(
-                        alignment: Alignment(xAlign!, 0),
-                        duration: Duration(milliseconds: 150),
-                        child: Container(
-                          width: width * 0.5,
-                          height: height,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 9, 158, 19),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(50.0),
-                            ),
-                            //border: Border.all(style: BorderStyle.solid)
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            xAlign = loginAlign;
-                            moneyColor = selectedColor;
-                            flagColor = normalColor;
-
-                            selectedWidgetMaker = WidgetMaker.bills;
-                          });
-                        },
-                        child: Align(
-                          alignment: Alignment(-1, 0),
-                          child: Container(
-                            width: width * 0.5,
-                            color: Colors.transparent,
-                            alignment: Alignment.center,
-                            child: Icon(Icons.money_outlined, color: moneyColor),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            xAlign = signInAlign;
-                            moneyColor = normalColor;
-                            flagColor = selectedColor;
-
-                            selectedWidgetMaker = WidgetMaker.flags;
-                          });
-                        },
-                        child: Align(
-                          alignment: Alignment(1, 0),
-                          child: Container(
-                            width: width * 0.5,
-                            color: Colors.transparent,
-                            alignment: Alignment.center,
-                            child: Icon(Icons.flag_outlined, color: flagColor),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // SizedBox(
-                //   width: 30,
-                //   height: 30,
-                //   child: MyBlinkingButton()
-                // )
-              ],
-            ),
-            SizedBox(height: 15,),
-            Container(
-              child: getWidget(),
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 4,
+                mainAxisSpacing: 10.0,
+                crossAxisSpacing: 10.0,
+                childAspectRatio: 2/3,
+                padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                children: [
+                  for(var item in _flagFileList) Image.asset('flags_collected/$item', fit: BoxFit.cover,),
+                ],
+              ),
             ),
           ],
         ),
-      ),
+      )
     );
   }
 }
-
-
-
-
-
-// class MyBlinkingButton extends StatefulWidget {
-//     @override
-//     _MyBlinkingButtonState createState() => _MyBlinkingButtonState();
-//   }
-
-//   class _MyBlinkingButtonState extends State<MyBlinkingButton>
-//       with SingleTickerProviderStateMixin {
-//     AnimationController? _animationController;
-
-//     @override
-//     void initState() {
-//       _animationController =
-//           new AnimationController(vsync: this, duration: Duration(seconds: 1));
-//       _animationController!.repeat(reverse: true);
-//       super.initState();
-//     }
-
-//     @override
-//     Widget build(BuildContext context) {
-//       return FadeTransition(
-//         opacity: _animationController!,
-//         child: MaterialButton(
-//           onPressed: () => null,
-//           color: Colors.green,
-//           shape: CircleBorder(),
-//         ),
-//       );
-//     }
-
-//     @override
-//     void dispose() {
-//       _animationController!.dispose();
-//       super.dispose();
-//     }
-//   }

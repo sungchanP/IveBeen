@@ -45,7 +45,6 @@ class HomeState extends State<Home> {
   }
 
 
-
   Future<String> getFlagUrl(String countryCode) async{
     final imageRef = _storageRef.child("flags_collected/$countryCode.png");
     return await imageRef.getDownloadURL();
@@ -54,19 +53,15 @@ class HomeState extends State<Home> {
   addFlagUrl() async{
     final flagDbRef = _dbRef.child('${user!.uid}/flags');
     final snapshot = await flagDbRef.get();
-    Map<dynamic, dynamic> map = snapshot.value as Map<dynamic, dynamic>;
-    List<dynamic> list = map.values.toList();
-
-    for(var flag in list){
-      String url = await getFlagUrl(flag);
-      global.flagurlList.add(Image.network(url, fit: BoxFit.cover,));
-      // getFlagUrl(flag).then((value) {
-      //   print(flag);
-      //   setState(() {
-      //     flagUrl = value;
-      //   });
-      //   global.flagurlList.add(Image.network(flagUrl!, fit: BoxFit.cover,));
-      // });
+    if (snapshot.exists){
+      Map<dynamic, dynamic> map = snapshot.value as Map<dynamic, dynamic>;
+      List<dynamic> list = map.values.toList();
+      for(var flag in list){
+        String url = await getFlagUrl(flag);
+        if(!global.flagurlList.contains(url)){
+          global.flagurlList.add(url);//Image.network(url, fit: BoxFit.cover,));
+        }
+      }
     }
   }
 
@@ -76,22 +71,22 @@ class HomeState extends State<Home> {
     setState(() {
       _countryCode = value;
     });
-    DbHelper().isBillCollected(_countryCode).then((value) {
+    DbHelper().isFlagCollected(_countryCode).then((value) {
       if(!value) {
         showDialog(
           context: context,
           builder: (BuildContext context){
             return AlertDialog(
-              title: const Text("New Bill/Flag is ready to be collected"),
-              content: Text("You can collect $_countryCode bill/flag"),
+              title: const Text("New Flag is ready to be collected"),
+              content: Text("You can collect $_countryCode flag"),
               actions: <Widget>[
                 InkWell(
                   child: Container(
                     child: Text("Collect"),
                   ),
                   onTap: () {
-                    DbHelper().addBillToDB(_countryCode);
                     DbHelper().addFlagToDB(_countryCode);
+                    addFlagUrl();
                     Navigator.pop(context);
                   }
                 )

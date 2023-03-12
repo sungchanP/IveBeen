@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dollar_bill/authHelper.dart';
-import 'toggleswitch.dart';
 
 class Account extends StatefulWidget {
   const Account({super.key});
@@ -39,14 +36,7 @@ class _AccountState extends State<Account> {
               ),
               onTap: () async{
                 await AuthHelper().signOut();
-              },
-            ),
-            InkWell(
-              child: Container(
-                child: Text("go to toggle"),
-              ),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> ToggleButton()));
+
               },
             ),
           ]
