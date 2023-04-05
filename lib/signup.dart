@@ -152,7 +152,7 @@ class _SignUpState extends State<SignUp> {
                     child: Text(
                       "SIGN UP",
                       style: TextStyle(fontSize: screenHeight*0.025,
-                            fontFamily: 'IndieFlower')// color: Colors.white),
+                            fontFamily: 'IndieFlower'),
                       ),
                   ),
                   onTap: () async{
