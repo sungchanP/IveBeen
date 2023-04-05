@@ -52,7 +52,9 @@ class _LoginState extends State<Login> {
                         margin: EdgeInsets.only(top: screenHeight*0.2),
                         child: Text(
                           "IveBeen",
-                          style: TextStyle(fontSize: screenHeight*0.05),
+                          style: TextStyle(
+                            fontSize: screenHeight*0.07,
+                            fontFamily: 'IndieFlower'),
                           ),
                       ),
                       SizedBox(height: screenHeight*0.08,),
@@ -128,7 +130,8 @@ class _LoginState extends State<Login> {
                                 padding: EdgeInsets.fromLTRB(screenWidth*0.315, screenWidth*0.01, screenWidth*0.315, screenWidth*0.01),
                                 child: Text(
                                   "LOGIN",
-                                  style: TextStyle(fontSize: screenHeight*0.019,)// color: Colors.white),
+                                  style: TextStyle(fontSize: screenHeight*0.025,
+                            fontFamily: 'IndieFlower'),
                                   ),
                               ),
                               onTap: () async{
@@ -140,7 +143,7 @@ class _LoginState extends State<Login> {
                                     email: _emailController.text, password: _passwordController.text
                                   ).then((value) {
                                     if(value != null){
-                                      final snackbar = SnackBar(content: const Text("user not found"),);
+                                      var snackbar = SnackBar(content: const Text("user not found"),);
                                       ScaffoldMessenger.of(context).showSnackBar(snackbar);
                                     }
                                   });
@@ -157,7 +160,8 @@ class _LoginState extends State<Login> {
                                 Container(
                                   child: Text(
                                     'New User? ',
-                                    style: TextStyle(fontSize: screenHeight*0.014),
+                                    style: TextStyle(fontSize: screenHeight*0.018,
+                            fontFamily: 'IndieFlower'),
                                   ),
                                 ),
                                 InkWell(
@@ -165,7 +169,8 @@ class _LoginState extends State<Login> {
                                     //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
                                     child: Text(
                                       'Sign Up',
-                                      style: TextStyle(fontSize: screenHeight*0.014, fontWeight: FontWeight.bold),
+                                      style: TextStyle(fontSize: screenHeight*0.018, fontWeight: FontWeight.bold,
+                            fontFamily: 'IndieFlower'),
                                     ),
                                   ),
                                   onTap: (){
@@ -183,7 +188,8 @@ class _LoginState extends State<Login> {
                                 //margin: EdgeInsets.only(top: 10,),//left: 245, right: 65),
                                 child: Text(
                                   'Forgot Password',
-                                  style: TextStyle(fontSize: screenHeight*0.014),
+                                  style: TextStyle(fontSize: screenHeight*0.018,
+                            fontFamily: 'IndieFlower'),
                                 ),
                               ),
                               onTap: (){

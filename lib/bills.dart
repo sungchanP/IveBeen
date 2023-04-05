@@ -47,7 +47,7 @@ class _BillsState extends State<Bills> {
                 childAspectRatio: 2/3,
                 padding: EdgeInsets.only(left: screenWidth*0.015, right: screenWidth*0.015),
                 children: [
-                  for(var item in _flagFileList) Image.asset('flags_collected/$item', fit: BoxFit.cover,),
+                  for(var item in _flagFileList) Image.asset('assets/flags_collected/$item', fit: BoxFit.cover,),
                   // Image.asset('flags_collected/AD.jpeg', fit: BoxFit.cover,),
                   // Image.asset('flags_collected/AE.jpeg', fit: BoxFit.cover,),
                   // Image.asset('flags_collected/AF.jpeg', fit: BoxFit.cover,),

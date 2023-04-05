@@ -25,18 +25,29 @@ class _AccountState extends State<Account> {
   }
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height- MediaQuery.of(context).padding.top;
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Container(
+              child: Text("${user?.email}",
+              style: TextStyle(
+                fontSize: screenHeight*0.025,
+                fontFamily: 'IndieFlower'
+              ),),
+            ),
             InkWell(
               child: Container(
-                child: Text("${user?.email}, Log out"),
+                child: Text("LOG OUT",
+                style: TextStyle(
+                fontSize: screenHeight*0.025,
+                fontFamily: 'IndieFlower'
+              ),),
               ),
               onTap: () async{
                 await AuthHelper().signOut();
-
               },
             ),
           ]

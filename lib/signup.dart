@@ -148,10 +148,11 @@ class _SignUpState extends State<SignUp> {
                       ),
                       //color: Colors.green,
                     ),
-                    padding: EdgeInsets.fromLTRB(screenWidth*0.29, screenWidth*0.01, screenWidth*0.29, screenWidth*0.01),
+                    padding: EdgeInsets.fromLTRB(screenWidth*0.28, screenWidth*0.01, screenWidth*0.28, screenWidth*0.01),
                     child: Text(
                       "SIGN UP",
-                      style: TextStyle(fontSize: screenHeight*0.019,)// color: Colors.white),
+                      style: TextStyle(fontSize: screenHeight*0.025,
+                            fontFamily: 'IndieFlower')// color: Colors.white),
                       ),
                   ),
                   onTap: () async{

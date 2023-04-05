@@ -39,7 +39,7 @@ class DbHelper{
     final flagDbRef = _dbRef.child('${user!.uid}/flags');
     var newPostKey = flagDbRef.push().key;                 // add new key (first) to the bill db
     Map<String, String> updates = {};                      // init map (unique key, country code)
-    updates['/flags/$newPostKey'] = countryCode;//"flags_collected/$countryCode.png";           // map named updates = {unique key: country code}
+    updates['/flags/$newPostKey'] = countryCode;        // map named updates = {unique key: country code}
     await _dbRef.child(user!.uid).update(updates);         // update current user's bill db (successfully collected current country bill)
   }
 }

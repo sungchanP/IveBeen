@@ -25,7 +25,7 @@ class HomeState extends State<Home> {
   final _dbRef = FirebaseDatabase.instance.ref('users');
   User? user = FirebaseAuth.instance.currentUser;
 
-  final _storageRef = FirebaseStorage.instance.ref();
+  //final _storageRef = FirebaseStorage.instance.ref();
 
 
   String? flagUrl;
@@ -40,27 +40,18 @@ class HomeState extends State<Home> {
   @override
   void initState() {
     showMsg();
-    addFlagUrl();
     super.initState();
-  }
-
-
-  Future<String> getFlagUrl(String countryCode) async{
-    final imageRef = _storageRef.child("flags_collected/$countryCode.png");
-    return await imageRef.getDownloadURL();
   }
 
   addFlagUrl() async{
     final flagDbRef = _dbRef.child('${user!.uid}/flags');
     final snapshot = await flagDbRef.get();
+    global.collectedFlagList = [];
     if (snapshot.exists){
       Map<dynamic, dynamic> map = snapshot.value as Map<dynamic, dynamic>;
       List<dynamic> list = map.values.toList();
       for(var flag in list){
-        String url = await getFlagUrl(flag);
-        if(!global.flagurlList.contains(url)){
-          global.flagurlList.add(url);
-        }
+        global.collectedFlagList.add(flag);
       }
     }
   }
@@ -93,6 +84,9 @@ class HomeState extends State<Home> {
               ],
             );
           });
+        }
+        else{
+          addFlagUrl();
         }
       });
     });

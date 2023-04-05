@@ -1,1 +1,1 @@
-List<String> flagurlList = [];
+List<String> collectedFlagList = [];

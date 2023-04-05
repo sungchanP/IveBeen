@@ -29,7 +29,7 @@ class _CollectionState extends State<Collection> {
               childAspectRatio: 2/3,
               padding: EdgeInsets.only(left: screenWidth*0.015, right: screenWidth*0.015),
               children: [
-                for (var url in global.flagurlList) Image.network(url, fit: BoxFit.cover,)
+                for (var flag in global.collectedFlagList) Image.asset('assets/flags_collected/$flag.jpeg', fit: BoxFit.cover,)
               ]
               )
             ),

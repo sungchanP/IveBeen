@@ -41,7 +41,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       margin: EdgeInsets.only(top: screenHeight*0.3),
                       child: Text(
                         "Enter email",
-                        style: TextStyle(fontSize: 25),
+                        style: TextStyle(fontSize: screenHeight*0.025,
+                            fontFamily: 'IndieFlower'),
                         ),
                     ),
                     SizedBox(height: screenHeight*0.05,),
@@ -63,6 +64,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           else if (!(value.contains("@"))){
                             return "Invalid email";
                           }
+                          
                           return null;
                         },
                       ),
@@ -78,21 +80,31 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           borderRadius: BorderRadius.all(Radius.circular(20),),
                           //color: Colors.green,
                         ),
-                        padding: EdgeInsets.fromLTRB(screenWidth*0.23, screenWidth*0.01, screenWidth*0.24, screenWidth*0.01),
+                        padding: EdgeInsets.fromLTRB(screenWidth*0.19, screenWidth*0.01, screenWidth*0.19, screenWidth*0.01),
                         child: Text(
                           "Reset Password",
-                          style: TextStyle(fontSize: screenHeight*0.019,)// color: Colors.white),
+                          style: TextStyle(fontSize: screenHeight*0.025,
+                            fontFamily: 'IndieFlower')// color: Colors.white),
                           ),
                       ),
                       onTap: () => {
                         if(_formKey.currentState!.validate()){
-                          AuthHelper().verifyEmail(_emailController.text.trim()).then((value) {
-                            if(value == null){
-                              var snackbar = SnackBar(content: const Text("Email is sent"),);
-                              ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                          AuthHelper().inUse(email: _emailController.text.trim()).then((value) {
+                            if(value){
+                              AuthHelper().verifyEmail(_emailController.text.trim()).then((value) {
+                                if(value == null){
+                                  var snackbar = SnackBar(content: const Text("Email is sent"),);
+                                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                                  Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                                }
+                              });
+                            }
+                            else{
+                              var snackbar2 = SnackBar(content: const Text("Email not found. Sign up!"),);
+                              ScaffoldMessenger.of(context).showSnackBar(snackbar2);
                               Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                             }
-                          }),
+                          })
                         }
                       },
                     ),
