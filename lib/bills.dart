@@ -32,6 +32,8 @@ class _BillsState extends State<Bills> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height- MediaQuery.of(context).padding.top;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
         bottom: false,
@@ -40,12 +42,60 @@ class _BillsState extends State<Bills> {
             Expanded(
               child: GridView.count(
                 crossAxisCount: 4,
-                mainAxisSpacing: 10.0,
-                crossAxisSpacing: 10.0,
+                mainAxisSpacing: screenHeight*0.01,
+                crossAxisSpacing: screenWidth*0.02,
                 childAspectRatio: 2/3,
-                padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                padding: EdgeInsets.only(left: screenWidth*0.015, right: screenWidth*0.015),
                 children: [
                   for(var item in _flagFileList) Image.asset('flags_collected/$item', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/AD.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/AE.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/AF.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/AG.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/AL.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/AM.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/AO.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/AR.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/AT.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/AU.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/AW.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/AZ.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/BA.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/BB.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/BD.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/BE.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/BF.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/BG.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/BH.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/BI.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/BJ.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/BN.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/BO.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/BR.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/BS.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/BT.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/BW.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/BY.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/BZ.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/CA.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/CD.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/CF.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/CG.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/CH.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/CI.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/CL.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/CM.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/CN.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/CO.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/CR.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/CU.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/CV.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/CY.jpeg', fit: BoxFit.cover,),
+                  // Image.asset('flags_collected/CZ.jpeg', fit: BoxFit.cover,),
+                  
+                  
+                  
+                  
                 ],
               ),
             ),

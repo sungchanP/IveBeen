@@ -3,7 +3,6 @@ import 'package:dollar_bill/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'authHelper.dart';
 import 'dbHelper.dart';
 
@@ -24,159 +23,173 @@ class _SignUpState extends State<SignUp> {
   final _pwController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  // bool emailInUse = false;
+  var errorText;
+
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height- MediaQuery.of(context).padding.top;
+    final screenWidth = MediaQuery.of(context).size.width;
     return MaterialApp(
-      home: Scaffold(
-        body: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-                margin: EdgeInsets.only(left: 60, right: 60, bottom: 10, top: 100),
-                child: TextFormField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
+      home: GestureDetector(
+        onTap:() => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+          body: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
+                  margin: EdgeInsets.only(left: screenWidth*0.12, right: screenWidth*0.12, top: screenWidth*0.07),
+                  child: TextFormField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      hintText: "Email",
                     ),
-                    hintText: "Email",
+                    validator: (value) {
+                      if (value == null || value.isEmpty){
+                        return "Enter email";
+                      }
+                      else if (!(value.contains("@"))){
+                        return "Invalid email";
+                      }
+                      else{
+                        AuthHelper().inUse(email: value).then((value) {
+                          if(value){
+                            errorText = "Email in use";
+                          }
+                          else{
+                            errorText =  null;
+                          }
+                        });
+                      }
+                      return errorText;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty){
-                      return "Enter email";
-                    }
-                    else if (!(value.contains("@"))){
-                      return "Invalid email";
-                    }
-                    return null;
-                  },
                 ),
-              ),
-              Container(
-                //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-                margin: EdgeInsets.only(left: 60, right: 60,bottom: 10),
-                child: TextFormField(
-                  controller: _pwController,
-                  obscureText: !_pwOneVisible,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
+                Container(
+                  //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
+                  margin: EdgeInsets.only(left: screenWidth*0.12, right: screenWidth*0.12, top: screenWidth*0.01),
+                  child: TextFormField(
+                    controller: _pwController,
+                    obscureText: !_pwOneVisible,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      hintText: "Password",
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _pwOneVisible? Icons.visibility : Icons.visibility_off
+                        ),
+                        onPressed: () => setState(() { 
+                          _pwOneVisible = !_pwOneVisible;
+                          }
+                        ),
+                      )
                     ),
-                    hintText: "Password",
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _pwOneVisible? Icons.visibility : Icons.visibility_off
-                      ),
-                      onPressed: () => setState(() {
-                        _pwOneVisible = !_pwOneVisible;
-                        }
-                      ),
-                    )
+                    validator: (value) {
+                      
+                      if (value == null || value.isEmpty){
+                        return "Enter password";
+                      }
+                      else if(value.length < 6) {
+                        return "Password must be at least 6 characters";
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty){
-                      return "Enter password";
-                    }
-                    else if(value.length < 6) {
-                      return "Password must be at least 6 characters";
-                    }
-                    return null;
-                  },
                 ),
-              ),
-              Container(
-                //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-                margin: EdgeInsets.only(left: 60, right: 60,bottom: 10),
-                child: TextFormField(
-                  obscureText: !_pwTwoVisible,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    hintText: "Re-type password",
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _pwTwoVisible? Icons.visibility : Icons.visibility_off
+                Container(
+                  //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
+                  margin: EdgeInsets.only(left: screenWidth*0.12, right: screenWidth*0.12, top: screenWidth*0.01),
+                  child: TextFormField(
+                    obscureText: !_pwTwoVisible,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      onPressed: () => setState(() {
-                        _pwTwoVisible = !_pwTwoVisible;
-                        }
+                      hintText: "Re-type password",
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _pwTwoVisible? Icons.visibility : Icons.visibility_off
+                        ),
+                        onPressed: () => setState(() {
+                          _pwTwoVisible = !_pwTwoVisible;
+                          }
+                        ),
                       ),
                     ),
+                    validator: (value){
+                      if (value == null || value.isEmpty){
+                        return "Re-type password";
+                      }
+                      else if (value != _pwController.text){
+                        return "Password doesn't match";
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value){
-                    if (value == null || value.isEmpty){
-                      return "Re-type password";
-                    }
-                    else if (value != _pwController.text){
-                      return "Password doesn't match";
-                    }
-                    return null;
-                  },
                 ),
-              ),
-              SizedBox(height: 40,),
-              _loading? CircularProgressIndicator() : InkWell(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      style: BorderStyle.solid,
+                SizedBox(height: screenHeight*0.05,),
+                _loading? CircularProgressIndicator() : InkWell(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        style: BorderStyle.solid,
+                        //color: Colors.green,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(20),
+                      ),
                       //color: Colors.green,
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(20),
-                    ),
-                    //color: Colors.green,
+                    padding: EdgeInsets.fromLTRB(screenWidth*0.29, screenWidth*0.01, screenWidth*0.29, screenWidth*0.01),
+                    child: Text(
+                      "SIGN UP",
+                      style: TextStyle(fontSize: screenHeight*0.019,)// color: Colors.white),
+                      ),
                   ),
-                  padding: EdgeInsets.fromLTRB(100, 8, 100, 8),
-                  child: Text(
-                    "Sign Up",
-                    style: TextStyle(fontSize: 20,)// color: Colors.white),
-                    ),
-                ),
-                onTap: () async{
-                  if(_formKey.currentState!.validate()){
-                    setState(() {
-                      _loading = true;
-                    });
-                    await AuthHelper().signUp(
-                      email: _emailController.text, password: _pwController.text
-                      ).then((value) {
-                        if (value == null){
-                          DbHelper().addUserToDB();
-                          AuthHelper().signOut();
-                          Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
-                          // Navigator.push(context, PageRouteBuilder(
-                          // pageBuilder: (context, animation1, animation2) => Login(),
-                          // transitionDuration: Duration.zero,
-                          // reverseTransitionDuration: Duration.zero,));
+                  onTap: () async{
+                    if(_formKey.currentState!.validate()){
+                      setState(() {
+                        _loading = true;
+                      });
+                      await AuthHelper().signUp(
+                        email: _emailController.text, password: _pwController.text
+                        ).then((value) {
+                          if (value == null){
+                            DbHelper().addUserToDB();
+                            AuthHelper().signOut();
+                            Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                          }
                         }
-                      }
-                    );
-                    setState(() {
-                      _loading = false;
-                    });
-                  }
-                },
-              ),
-              SizedBox(height: 30,),
-              Container(
-                padding: EdgeInsets.only(right: 250),
-                //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
-                child: IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  //style: ButtonStyle(),
-                  onPressed: (){
-                    Navigator.pop(context);
+                      );
+                      setState(() {
+                        _loading = false;
+                      });
+                    }
                   },
                 ),
-              ),
-            ]
-          ),
-        )
+                SizedBox(height: screenHeight*0.01,),
+                Container(
+                  margin: EdgeInsets.only(right: screenWidth*0.65),
+                  //decoration: BoxDecoration(border: Border.all(style: BorderStyle.solid)),
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ]
+            ),
+          )
+        ),
       )
     );
   }

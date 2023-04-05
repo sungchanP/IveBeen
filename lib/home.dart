@@ -59,7 +59,7 @@ class HomeState extends State<Home> {
       for(var flag in list){
         String url = await getFlagUrl(flag);
         if(!global.flagurlList.contains(url)){
-          global.flagurlList.add(url);//Image.network(url, fit: BoxFit.cover,));
+          global.flagurlList.add(url);
         }
       }
     }

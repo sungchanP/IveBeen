@@ -1,4 +1,6 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class AuthHelper {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -13,9 +15,18 @@ class AuthHelper {
       );
       return null;
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      return e.code;
     }
   }
+
+  Future inUse({required String email}) async {
+    final lst = await _auth.fetchSignInMethodsForEmail(email);
+    if (lst.isNotEmpty){
+      return true;
+    }
+    return false;
+  }
+
 
   //SIGN IN METHOD
   Future signIn({required String email, required String password}) async {
@@ -33,4 +44,20 @@ class AuthHelper {
   Future signOut() async {
     await _auth.signOut();
   }
+
+
+  Future verifyEmail(email) async{
+    try{
+      await _auth.sendPasswordResetEmail(email: email);
+      return null;
+    }
+    on FirebaseAuthException catch (e){
+      print(e);
+    }
+  }
+
 }
+
+
+
+
