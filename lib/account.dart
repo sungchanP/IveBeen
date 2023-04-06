@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dollar_bill/authHelper.dart';
 
@@ -47,7 +48,11 @@ class _AccountState extends State<Account> {
               ),),
               ),
               onTap: () async{
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.remove('email');
                 await AuthHelper().signOut();
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/main', (Route<dynamic> route) => false);
               },
             ),
           ]

@@ -1,8 +1,8 @@
 import 'package:dollar_bill/getCountryCodeHelper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'collection.dart';
 import 'account.dart';
 import 'bills.dart';
@@ -25,9 +25,6 @@ class HomeState extends State<Home> {
   final _dbRef = FirebaseDatabase.instance.ref('users');
   User? user = FirebaseAuth.instance.currentUser;
 
-  //final _storageRef = FirebaseStorage.instance.ref();
-
-
   String? flagUrl;
   String? billUrl;
 
@@ -39,9 +36,23 @@ class HomeState extends State<Home> {
 
   @override
   void initState() {
+    initializer();
     showMsg();
     super.initState();
   }
+
+  void initializer(){
+  FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    if (user == null) {
+      //print('User is currently signed out!');
+      return;
+
+    } else {
+      //print('User is signed in!');
+      return;
+    }
+  });
+}
 
   addFlagUrl() async{
     final flagDbRef = _dbRef.child('${user!.uid}/flags');
@@ -59,36 +70,77 @@ class HomeState extends State<Home> {
 
   void showMsg() async{
     await GetCountryCodeHelper().getCountry().then((value) {
-    setState(() {
-      _countryCode = value;
-    });
-    DbHelper().isFlagCollected(_countryCode).then((value) {
-      if(!value) {
+      if(value.toString().length != 2){
         showDialog(
           context: context,
           builder: (BuildContext context){
             return AlertDialog(
-              title: const Text("New Flag is ready to be collected"),
-              content: Text("You can collect $_countryCode flag"),
+              title: const Text("Location need to be enabled to use IveBeen"),
               actions: <Widget>[
                 InkWell(
                   child: Container(
-                    child: Text("Collect"),
+                    child: Text("Go to Setting"),
                   ),
                   onTap: () {
-                    DbHelper().addFlagToDB(_countryCode);
-                    addFlagUrl();
                     Navigator.pop(context);
+                    Geolocator.openLocationSettings();
+                    showMsg();
                   }
                 )
               ],
             );
+          }
+        );
+      }
+      else{
+        setState(() {
+          _countryCode = value;
+        });
+        DbHelper().isFlagCollected(_countryCode).then((value) {
+          if(!value) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context){
+                return AlertDialog(
+                  title: const Text("New Flag is ready to be collected"),
+                  content: Text("You can collect $_countryCode flag"),
+                  actions: <Widget>[
+                    InkWell(
+                      child: Container(
+                        child: Text("Collect"),
+                      ),
+                      onTap: () {
+                        DbHelper().addFlagToDB(_countryCode);
+                        addFlagUrl();
+                        Navigator.pop(context);
+                      }
+                    )
+                  ],
+                );
+              });
+            }
+            else{
+              addFlagUrl();
+              showDialog(
+              context: context,
+              builder: (BuildContext context){
+                return AlertDialog(
+                  title: Text("Congrat! You've already collected $_countryCode flag!"),
+                  actions: <Widget>[
+                    InkWell(
+                      child: Container(
+                        child: Text("OK"),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      }
+                    )
+                  ],
+                );
+              });
+            }
           });
-        }
-        else{
-          addFlagUrl();
-        }
-      });
+      }
     });
   }
 
@@ -105,9 +157,9 @@ class HomeState extends State<Home> {
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.attach_money_outlined),
-            activeIcon: Icon(Icons.attach_money),
-            label: 'Bills',
+            icon: Icon(Icons.flag_outlined),
+            activeIcon: Icon(Icons.flag),
+            label: 'Flags',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.collections_outlined),

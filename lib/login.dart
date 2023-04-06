@@ -1,4 +1,5 @@
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dollar_bill/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'signup.dart';
@@ -21,6 +22,11 @@ class _LoginState extends State<Login> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _loginFormKey = GlobalKey<FormState>();
+
+  @override
+  void initState(){
+    super.initState();
+  }
 
   @override
   void dispose(){
@@ -141,10 +147,15 @@ class _LoginState extends State<Login> {
                                   });
                                   await AuthHelper().signIn(
                                     email: _emailController.text, password: _passwordController.text
-                                  ).then((value) {
+                                  ).then((value) async{
                                     if(value != null){
                                       var snackbar = SnackBar(content: const Text("user not found"),);
                                       ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                                    }
+                                    else{
+                                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                                      prefs.setString('email', _emailController.text);
+                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Home()));
                                     }
                                   });
                                   setState(() {

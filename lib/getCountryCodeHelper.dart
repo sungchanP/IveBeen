@@ -1,5 +1,4 @@
 
-import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:async';
@@ -26,7 +25,8 @@ class GetCountryCodeHelper{
       // Location services are not enabled don't continue
       // accessing the position and request users of the 
       // App to enable the location services.
-      return Future.error('Location services are disabled.');
+      throw Exception('Location services are disabled.');
+      //return Future.error('Location services are disabled.');
     }
 
     permission = await Geolocator.checkPermission();
@@ -38,14 +38,16 @@ class GetCountryCodeHelper{
         // Android's shouldShowRequestPermissionRationale 
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
-        return Future.error('Location permissions are denied');
+        throw Exception('Location permissions are denied');
+        //return Future.error('Location permissions are denied');
       }
     }
     
     if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately. 
-      return Future.error(
-        'Location permissions are permanently denied, we cannot request permissions.');
+      // Permissions are denied forever, handle appropriately.
+      throw Exception('Location permissions are permanently denied, we cannot request permissions.');
+      // return Future.error(
+      //   'Location permissions are permanently denied, we cannot request permissions.');
     } 
 
     // When we reach here, permissions are granted and we can
@@ -54,23 +56,33 @@ class GetCountryCodeHelper{
     return await Geolocator.getCurrentPosition();
   }
 
+  // Future getCountry() async{
+  //   await _determinePosition().then((value) {
+  //       if (ableToGetLocation){
+  //         curPositionStatus = value;
+  //       }
+  //     }
+  //   );
+  //   return convertGeocode(curPositionStatus!.latitude, curPositionStatus!.longitude);
+  // }
+
   Future getCountry() async{
-    await _determinePosition().then(
-      (value) {
-        if (ableToGetLocation){
-          curPositionStatus = value;
-        }
-      }
-    );
-    return convertGeocode(curPositionStatus!.latitude, curPositionStatus!.longitude);
+    try{
+      var value = await _determinePosition();
+      return convertGeocode(value.latitude, value.longitude);
+    } catch (e){
+      //print(e);
+      return e;
+      //Geolocator.openLocationSettings();
+    }
+    //var value = await _determinePosition().catchError((Object obj) => (obj as Future).catchError(print));
+    // print(value.runtimeType);
+    // return convertGeocode(value.latitude, value.longitude);
   }
 
   Future<String?> convertGeocode(double lat, double long) async{
     await placemarkFromCoordinates(lat, long).then((value) {
       placemark = value[0];
-      //countryCode = placemark!.isoCountryCode;
-      //return placemark!.isoCountryCode;
-      //String? countryCode = firstPlace;
     });
     return placemark!.isoCountryCode;
   }
