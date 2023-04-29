@@ -1,6 +1,6 @@
-# dollar_bill
+# IveBeen
 
-A new Flutter project.
+Allows users to collect flags of the country where user is currently located in and collect flags!
 
 ## Getting Started
 
